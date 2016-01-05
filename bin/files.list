@@ -1,0 +1,12 @@
+
+# <source><tab><destination>
+# <source> paths are relative to $HOME/dotfiles
+# <destingation> paths are relative to $HOME
+
+# BASH
+bash/bashrc.bash	.bashrc
+bash/bash_profile.bash	.bash_profile
+
+# GIT
+git/gitconfig	.gitconfig
+git/gitignore	.gitignore

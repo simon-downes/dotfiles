@@ -1,0 +1,39 @@
+#!/bin/bash
+
+function dot_install {
+
+	while IFS="	" read -ra LINE; do
+		# not a comment line so do something with it
+		if [[ ! $LINE == \#* ]]; then
+			
+			local SRC="$HOME/dotfiles/${LINE[0]}"
+			local DEST=""$HOME/${LINE[1]}""
+
+			# source file exists so we should install it
+			if [ -f "$SRC" ]; then
+
+				# make sure the destination directory exists
+				local DIR=$(dirname ${DEST})
+				if [ "$DIR" != "$HOME" -a ! -d "$DIR" ]; then
+					mkdir -p $DIR
+				fi
+
+				# destination is a link so make a copy of file it points to
+				if [ -L $DEST ]; then
+					#cp "$(readlink $DEST)" "$DEST.old"
+					cp -Lp $DEST "$DEST.old"
+				# otherwise just rename the file
+				elif [ -f $DEST ]; then
+					mv $DEST "$DEST.old"
+				fi
+
+				# now we just symlink to the files in our repo
+				ln -sf $SRC $DEST
+
+			fi
+		fi
+	done < files.list
+
+}
+
+dot_install

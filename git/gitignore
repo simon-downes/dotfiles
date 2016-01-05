@@ -1,0 +1,21 @@
+# OS or Editor files
+._*
+.DS_Store
+Thumbs.db
+
+# Files that might appear on external disks
+.Spotlight-V100
+.Trashes
+
+# Shit left around by Fuse
+.fuse-*
+
+# Always-ignore extensions
+*~
+*.diff
+*.err
+*.log
+*.pyc
+*.swp
+*.tmp
+*.vi

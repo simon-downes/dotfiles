@@ -1,0 +1,109 @@
+#
+# Nano Config
+# Original: https://github.com/dotphiles/dotphiles/blob/master/nano/nanorc
+#
+
+# Use auto-indentation.
+set autoindent
+
+# Use bold text instead of reverse video text.
+set boldtext
+
+# Set the characters treated as closing brackets when justifying paragraphs.
+# They cannot contain blank characters. Only closing punctuation, optionally
+# followed by closing brackets, can end sentences. The default value
+# is ""')>]}".
+set brackets string ""')>]}"
+
+# Constantly display the cursor position in the status bar.
+set const
+
+# Use cut to end of line by default.
+unset cut
+
+# Wrap lines at column number n. If n is 0 or less, the maximum line length
+# will be the screen width less n columns. The default value is -8.
+set fill "-4"
+
+# Enable ~/.nano_history for saving and reading search/replace strings.
+set historylog
+
+# Set the opening and closing brackets that can be found by bracket searches.
+# They cannot contain blank characters. The former set must come before the
+# latter set, and both must be in the same order. The default value
+# is "(<[{)>]}".
+set matchbrackets string "(<[{)>]}"
+
+# Use of the blank line below the titlebar as extra editing space.
+unset morespace
+
+# Enable mouse support, so that mouse clicks can be used to place the cursor,
+# set the mark (with a double click), or execute shortcuts.
+unset mouse
+
+# Don't convert files from DOS/Mac format.
+set noconvert
+
+# Don't follow symlinks when writing files.
+unset nofollow
+
+# Don't add newlines to the ends of files.
+unset nonewlines
+
+# Don't wrap text at all.
+unset nowrap
+
+# Set the characters treated as closing punctuation when justifying paragraphs.
+# They cannot contain blank characters. Only closing punctuation, optionally
+# followed by closing brackets, can end sentences. The default value is "!.?".
+set punct "!.?"
+
+# Do quick statusbar blanking. Statusbar messages will disappear after 1
+# keystroke instead of 25.
+#unset quickblank
+
+# The email-quote string, used to justify email-quoted paragraphs. This is an
+# extended regular expression if your system supports them, otherwise a
+# literal string. The default value is "^([ \t]*[#:>\|}])+" if you have
+# extended regular expression support, or "> " otherwise. Note that '\t'
+# stands for a literal Tab character.
+set quotestr "^([ \\t]*[#:>\\|}])+"
+
+# Do extended regular expression searches by default.
+unset regexp
+
+# Make the Home key smarter. When Home is pressed anywhere but at the very
+# beginning of non-whitespace characters on a line, the cursor will jump to that
+# beginning (either forwards or backwards). If the cursor is already at that
+# position, it will jump to the true beginning of the line.
+set smarthome
+
+# Use smooth scrolling by default.
+set smooth
+
+# Use spelling checker spellprog instead of the built-in one, which calls
+# "spell".
+set speller "aspell"
+
+# Use a tab size of "n" columns. The value of n must be greater than 0. The
+# default value is 8.
+set tabsize "4"
+
+# Detect word boundaries more accurately by treating punctuation characters
+# as part of a word.
+unset wordbounds
+
+
+##
+## Include syntax highlighting
+##
+## Originals: https://github.com/dotphiles/dotphiles/tree/master/nano/syntax-highlighting
+##
+include "~/.nano/conf.nanorc"
+include "~/.nano/css.nanorc"
+include "~/.nano/html.nanorc"
+include "~/.nano/js.nanorc"
+include "~/.nano/nanorc.nanorc"
+include "~/.nano/php.nanorc"
+include "~/.nano/python.nanorc"
+include "~/.nano/xml.nanorc"
