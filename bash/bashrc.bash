@@ -36,3 +36,4 @@ done
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
 # TODO: some form of local config
+[ -f ~/.bash.local ] && . ~/.bash.local
