@@ -110,7 +110,7 @@ function __git_prompt() {
 
 		local GIT_PROMPT="$GIT_PROMPT $GREEN$STAGED$NOCOLOUR$GIT_DELIMITER$YELLOW$UNSTAGED$NOCOLOUR$GIT_DELIMITER$CYAN$UNTRACKED"
 
-		if [ -n "$(git rev-parse --abbrev-ref @'{u}' 2> /dev/null)" ]; then
+		if [ git rev-parse --abbrev-ref @'{u}' 2> /dev/null ]; then
 			local UPSTREAM=$(git rev-list --left-right --count HEAD...@'{u}')
 			local AHEAD=$(echo $UPSTREAM | cut -d" " -f1)
 			local BEHIND=$(echo $UPSTREAM | cut -d" " -f2)
