@@ -24,6 +24,9 @@ alias path='echo -e ${PATH//:/\\n}'
 # quick access to hosts file
 alias hosts='sudo $EDITOR /etc/hosts'
 
+# Get your current public IP
+alias ip="curl icanhazip.com"
+
 alias messages='sudo tail -f /var/log/messages'
 alias err='sudo tail -f /var/log/apache2-dev/simon.error.log'
 
@@ -44,3 +47,11 @@ alias update="sudo apt-get -qq update && sudo apt-get upgrade"
 alias install="sudo apt-get install"
 alias remove="sudo apt-get remove"
 alias search="apt-cache search"
+
+# git
+alias gl="git lg"
+alias ga="git add"
+alias gc="git commit -m"
+alias gd="git diff"
+alias gdc="git diff --cached"
+alias gpo="git push origin"
