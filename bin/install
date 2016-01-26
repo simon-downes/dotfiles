@@ -5,7 +5,7 @@ function dot_install {
 	while IFS="	" read -ra LINE; do
 		# not a comment line so do something with it
 		if [[ ! $LINE == \#* ]]; then
-			
+
 			local SRC="$HOME/dotfiles/${LINE[0]}"
 			local DEST=""$HOME/${LINE[1]}""
 
@@ -32,7 +32,7 @@ function dot_install {
 
 			fi
 		fi
-	done < files.list
+	done < $HOME/dotfiles/bin/files.list
 
 }
 
