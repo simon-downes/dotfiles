@@ -74,6 +74,15 @@ function __build_prompt() {
 
 	PS1="${USER_PROMPT}${HOST_PROMPT}${LOGIN_DELIMITER}$BLUE$BOLD\w$GIT_PROMPT$RED$BOLD❯$NOCOLOUR "
 
+	# If this is an xterm set the title to user@host:dir
+	case "$TERM" in
+		xterm*|rxvt*)
+			PS1="\[\e]0;\u@\h: \w\a\]$PS1"
+		;;
+		*)
+		;;
+	esac
+
 }
 
 function __git_prompt() {
@@ -144,12 +153,3 @@ PROMPT_COMMAND=__build_prompt
 # else
 # 	PS1="\u@\h\ \w> "
 # fi
-
-# # If this is an xterm set the title to user@host:dir
-# case "$TERM" in
-# 	xterm*|rxvt*)
-# 		PS1="\[\e]0;\u@\h: \w\a\]$PS1"
-# 	;;
-# 	*)
-# 	;;
-# esac
