@@ -43,10 +43,10 @@ fi
 
 
 # Package Management
-alias update="sudo apt-get -qq update && sudo apt-get upgrade"
-alias install="sudo apt-get install"
-alias remove="sudo apt-get remove"
-alias search="apt-cache search"
+alias apt-update="sudo apt-get -qq update && sudo apt-get upgrade"
+alias apt-install="sudo apt-get install"
+alias apt-remove="sudo apt-get remove"
+alias apt-search="apt-cache search"
 
 # git
 alias gl="git lg"
