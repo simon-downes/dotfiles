@@ -1,6 +1,6 @@
 [user]
 	name = Simon Downes
-	email = simon.downes@gamer-network.net
+	email = simon@simondownes.co.uk
 
 [alias]
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
