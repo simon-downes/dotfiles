@@ -1,50 +1,15 @@
 #!/bin/bash
 
-
-# zsh style right prompt support :)
-#__rprompt() {
-#    printf "%*s\r" "$COLUMNS" "$(eval echo "$RPROMPT")"
-#}
-
-#if [[ ! $PROMPT_COMMAND =~ __rprompt ]]; then
-#    export PROMPT_COMMAND="__rprompt; ${PROMPT_COMMAND:-:}"
-#fi
-
-#export RPROMPT='$(date)'
-
 #TODO: https://github.com/gabrielelana/awesome-terminal-fonts
 
 PROMPT_CHAR="❯"
 
-GIT_CLEAN="✔"
+# Status Symbols
 GIT_DELIMITER="•"
-
-# GIT_CLEAN="✔"
-# GIT_DIRTY="✖"
-# GIT_UNTRACKED="●"
-# GIT_AHEAD="↑"
-# GIT_BEHIND="↓"
-
-
-# GIT_CLEAN="✔"
-# GIT_STAGED="•"
-# GIT_UNMERGED="✖"
-# GIT_UNSTAGED=""
-# GIT_UNTRACKED="…"
 GIT_AHEAD="↑"
 GIT_BEHIND="↓"
 
-
-# Local Status Symbols
-
-# Symbol	Meaning
-# ✔	repository clean
-# ●n	there are n staged files
-# ✖n	there are n unmerged files
-# ✚n	there are n changed but unstaged files
-# …	there are some untracked files
 # Branch Tracking Symbols
-
 # Symbol	Meaning
 # ↑n	ahead of remote by n commits
 # ↓n	behind remote by n commits
@@ -72,7 +37,7 @@ function __build_prompt() {
 
 	local GIT_PROMPT=$(__git_prompt)
 
-	PS1="${USER_PROMPT}${HOST_PROMPT}${LOGIN_DELIMITER}$BLUE$BOLD\w$GIT_PROMPT$RED$BOLD❯$NOCOLOUR "
+	PS1="${USER_PROMPT}${HOST_PROMPT}${LOGIN_DELIMITER}$BLUE$BOLD\w$GIT_PROMPT$RED$BOLD$PROMPT_CHAR$NOCOLOUR "
 
 	# If this is an xterm set the title to user@host:dir
 	case "$TERM" in
@@ -135,21 +100,6 @@ function __git_prompt() {
 
 	echo $GIT_PROMPT
 
-	# Check for stashed files.
-	# if $(git rev-parse --verify refs/stash &>/dev/null); then
-	# 	s+='$';
-	# fi;
-
 }
 
 PROMPT_COMMAND=__build_prompt
-
-# if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-# # We have color support; assume it's compliant with Ecma-48
-# # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-# # a case would tend to support setf rather than setaf.)
-# 	#PS1="\[\033[01;31m\]\u\[\033[00m\]@\[\033[01;35m\]\h\[\033[01;34m\] \w\[\033[00m\]> "
-# 	PS1="$BOLD$RED\u$NOCOLOUR@$BOLD$MAGENTA\h $BLUE\w$NOCOLOUR$RED☀ $NOCOLOUR❯ "
-# else
-# 	PS1="\u@\h\ \w> "
-# fi

@@ -8,6 +8,10 @@ alias sudo="sudo "
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
+alias .....="cd ../../../.."
+
+alias dl="cd ~/Downloads"
+alias dt="cd ~/Desktop"
 
 # standard ls setup
 alias ls='ls -l --group-directories-first'
@@ -25,7 +29,7 @@ alias path='echo -e ${PATH//:/\\n}'
 alias hosts='sudo $EDITOR /etc/hosts'
 
 # Get your current public IP
-alias ip="curl icanhazip.com"
+alias whatsmyip="curl icanhazip.com"
 
 alias messages='sudo tail -f /var/log/messages'
 alias err='sudo tail -f /var/log/apache2-dev/simon.error.log'

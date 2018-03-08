@@ -19,21 +19,17 @@ NOCOLOUR="\[$(tput sgr0)\]"
 . ~/dotfiles/bash/exports.bash
 . ~/dotfiles/bash/aliases.bash
 
-# TODO: source all file in ~/dotfiles/bash/functions
+# source all file in ~/dotfiles/bash/functions
 for func in ~/dotfiles/bash/functions/*; do
 	. $func
 done
 
 . ~/dotfiles/bash/prompt.bash
-
-#. ~/dotfiles/bash/paths
-
 . ~/dotfiles/bash/completion.bash
-
 
 # TODO: move to misc?
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
-# TODO: some form of local config
+# some form of local config
 [ -f ~/.bash.local ] && . ~/.bash.local
