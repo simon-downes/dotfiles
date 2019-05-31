@@ -28,8 +28,8 @@ alias path='echo -e ${PATH//:/\\n}'
 # quick access to hosts file
 alias hosts='sudo $EDITOR /etc/hosts'
 
-# Get your current public IP
-alias whatsmyip="curl icanhazip.com"
+# get current public IPv4 address
+alias whatsmyip="dig @resolver1.opendns.com ANY myip.opendns.com +short -4"
 
 alias messages='sudo tail -f /var/log/messages'
 alias err='sudo tail -f /var/log/apache2-dev/simon.error.log'

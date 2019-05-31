@@ -31,5 +31,8 @@ done
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
+# if we're on WSL then do some special stuff for that
+grep -qsi Microsoft /proc/sys/kernel/osrelease && . ~/dotfiles/bash/wsl.bash;
+
 # some form of local config
 [ -f ~/.bash.local ] && . ~/.bash.local
