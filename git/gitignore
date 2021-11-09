@@ -58,7 +58,11 @@ _ide_helper.php
 # --------------------
 # Development
 # --------------------
-/node_modules
+vendor/
+node_modules/
+venv/
+__pycache__/
+.serverless
 
 # --------------------
 # Misc
