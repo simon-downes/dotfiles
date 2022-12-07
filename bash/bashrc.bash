@@ -34,5 +34,12 @@ done
 # if we're on WSL then do some special stuff for that
 grep -qsi Microsoft /proc/sys/kernel/osrelease && . ~/dotfiles/bash/wsl.bash;
 
+# if we have aws-vault installed then set the backend to file and create an alias
+# that will cat the password from a file to an env var when the command is run
+if [ $(which aws-vault) ]; then
+    export AWS_VAULT_BACKEND="file"
+    alias av='eval AWS_VAULT_FILE_PASSPHRASE=$(cat ~/.awsvault/pw) aws-vault'
+fi
+
 # some form of local config
 [ -f ~/.bash.local ] && . ~/.bash.local
