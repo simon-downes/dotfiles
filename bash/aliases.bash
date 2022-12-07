@@ -29,7 +29,7 @@ alias path='echo -e ${PATH//:/\\n}'
 alias hosts='sudo $EDITOR /etc/hosts'
 
 # get current public IPv4 address
-alias whatsmyip="dig @resolver1.opendns.com ANY myip.opendns.com +short -4"
+alias whatsmyip="curl -s --show-error https://api.ipify.org"
 
 alias messages='sudo tail -f /var/log/messages'
 alias err='sudo tail -f /var/log/apache2-dev/simon.error.log'
