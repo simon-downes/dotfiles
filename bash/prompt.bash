@@ -1,104 +1,113 @@
 #!/bin/bash
 
-#TODO: https://github.com/gabrielelana/awesome-terminal-fonts
-
-PROMPT_CHAR="❯"
-
-# Status Symbols
-GIT_DELIMITER="•"
-GIT_AHEAD="↑"
-GIT_BEHIND="↓"
-
-# Branch Tracking Symbols
-# Symbol	Meaning
-# ↑n	ahead of remote by n commits
-# ↓n	behind remote by n commits
-# ↓m↑n	branches diverged, other by m commits, yours by n commits
-
 function __build_prompt() {
 
-	local LOCAL_USER="simon"
+    # must come first
+    local __exit=$?
 
-	# Local or SSH session?
-	local REMOTE=""
-	[ -n "$SSH_CONNECTION" ] || [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ] && REMOTE=1
+    # define prompt colour sequences
+    # https://unix.stackexchange.com/questions/158412/are-the-terminal-color-escape-sequences-defined-anywhere-for-bash
+    local __red="\[$(tput setaf 1)\]"
+    local __green="\[$(tput setaf 2)\]"
+    local __yellow="\[$(tput setaf 3)\]"
+    local __blue="\[$(tput setaf 4)\]"
+    local __magenta="\[$(tput setaf 5)\]"
+    local __cyan="\[$(tput setaf 6)\]"
+    local __white="\[$(tput setaf 7)\]"
+    local __gray="\[$(tput setaf 8)\]"
 
-	# Only show username if not default
-	local USER_PROMPT=
-	[ "$USER" != "$LOCAL_USER" ] && USER_PROMPT="$NOCOLOUR$RED$BOLD$USER"
+    local __bright_red="\[$(tput setaf 9)\]"
+    local __bright_green="\[$(tput setaf 10)\]"
+    local __bright_yellow="\[$(tput setaf 11)\]"
+    local __bright_blue="\[$(tput setaf 12)\]"
+    local __bright_magenta="\[$(tput setaf 13)\]"
+    local __bright_cyan="\[$(tput setaf 14)\]"
+    local __bright_white="\[$(tput setaf 15)\]"
 
-	# Show hostname inside SSH session
-	local HOST_PROMPT=
-	[ -n "$REMOTE" ] && HOST_PROMPT="$NOCOLOUR@$MAGENTA$BOLD$HOSTNAME"
+    local __bold="\[$(tput bold)\]"
+    local __underline="\[$(tput sgr 0 1)\]"
+    local __invert="\[$(tput sgr 1 0)\]"
+    local __nocolour="\[$(tput sgr0)\]"
 
-	# Show delimiter if user or host visible
-	local LOGIN_DELIMITER=
-	[ -n "$USER_PROMPT" ] || [ -n "$HOST_PROMPT" ] && LOGIN_DELIMITER="$NOCOLOUR:"
+    # default prompt colour is green to indicate success of previous command
+    local __prompt_colour="${__green}"
 
-	local GIT_PROMPT=$(__git_prompt)
+    # if last command failed then prompt is red and includes exit code
+    if [ $__exit != 0 ]; then
+        __prompt_colour="${__red}"
+        __exit="${__prompt_colour}❌${__exit} ${__nocolour}"
+    else
+        __exit="${__prompt_colour}✔ ${__nocolour}"
+    fi
 
-	PS1="${USER_PROMPT}${HOST_PROMPT}${LOGIN_DELIMITER}$BLUE$BOLD\w$GIT_PROMPT$RED$BOLD$PROMPT_CHAR$NOCOLOUR "
+    # character definitions
+    local __box_top="${__prompt_colour}╭ ${__nocolour}"
+    local __box_bottom="${__prompt_colour}╰ ${__nocolour}"
+    local __prompt_char="${__prompt_colour}❯ ${__nocolour}"
+    local __separator="${__bright_white} :: ${__nocolour}"
+    local __git_separator="${__nocolour}•"
 
-	# If this is an xterm set the title to user@host:dir
-	case "$TERM" in
-		xterm*|rxvt*)
-			PS1="\[\e]0;\u@\h: \w\a\]$PS1"
-		;;
-		*)
-		;;
-	esac
+    if [ $USER == "root" ]; then
+        local __user=${__bright_red}${USER}${__nocolour}
+    else
+        local __user=${__yellow}${USER}${__nocolour}
+    fi
 
-}
+    local __host="${__bright_magenta}${HOSTNAME}${__nocolour}"
 
-function __git_prompt() {
+    local __current_dir="${__bright_blue}\\w${__nocolour}"
 
-	# check if we're in a git repo. (fast)
-	local IS_WORK_TREE="$(git rev-parse --is-inside-work-tree 2> /dev/null)"
+    local __git_status=""
 
-	# not a git directory so do nothing
-	[ -z $IS_WORK_TREE ] && return
+    # determine if we're in a git work tree:
+    # empty string = not in a git repo
+    # true = in a git repo - not in the .git directory
+    # false = in the .git directory of a git repo
+    local __git_work_tree=$(git rev-parse --is-inside-work-tree 2> /dev/null)
 
-	# check for what branch we're on. (fast)
-	#   if… HEAD isn’t a symbolic ref (typical branch),
-	#   then… get a tracking remote branch or tag
-	#   otherwise… get the short SHA for the latest commit
-	#   lastly just give up.
-	local BRANCH="$(git symbolic-ref --quiet --short HEAD 2> /dev/null || \
-		git describe --all --exact-match HEAD 2> /dev/null || \
-		git rev-parse --short HEAD 2> /dev/null || \
-		echo '(unknown)')";
-	
-	local GIT_PROMPT="$NOCOLOUR:$RED$BRANCH$NOCOLOUR"
+    if [ ! -z "${__git_work_tree}" ]; then
 
-	# only show all the status info if we're in the work tree, not the git dir
-	if [ "$IS_WORK_TREE" = "true" ]; then
+        # check for what branch we're on. (fast)
+        #   if… HEAD isn’t a symbolic ref (typical branch),
+        #   then… get a tracking remote branch or tag
+        #   otherwise… get the short SHA for the latest commit
+        #   lastly just give up.
+        local __git_branch="$(git symbolic-ref --quiet --short HEAD 2> /dev/null || \
+            git describe --all --exact-match HEAD 2> /dev/null || \
+            git rev-parse --short HEAD 2> /dev/null || \
+            echo '(unknown)')";
 
-		# get number of staged but not commited files
-		local STAGED=$(git diff-index --cached HEAD -- 2> /dev/null | wc -l)
+        local __git_changes=""
 
-		# number of unstaged files
-		local UNSTAGED=$(git diff-files --ignore-submodules | wc -l)
+        if [ $__git_work_tree = "true" ]; then
 
-		# number of untracked files (that aren't ignored)
-		local UNTRACKED=$(git ls-files --others --exclude-standard | wc -l)
+            # get number of staged but not commited files
+            local __git_staged=$(git diff-index --cached HEAD -- 2> /dev/null | wc -l)
 
-		local GIT_PROMPT="$GIT_PROMPT $GREEN$STAGED$NOCOLOUR$GIT_DELIMITER$YELLOW$UNSTAGED$NOCOLOUR$GIT_DELIMITER$CYAN$UNTRACKED"
+            # number of unstaged files
+            local __git_unstaged=$(git diff-files --ignore-submodules | wc -l)
 
-		if [ git rev-parse --abbrev-ref @'{u}' 2> /dev/null ]; then
-			local UPSTREAM=$(git rev-list --left-right --count HEAD...@'{u}')
-			local AHEAD=$(echo $UPSTREAM | cut -d" " -f1)
-			local BEHIND=$(echo $UPSTREAM | cut -d" " -f2)
-			if [ $AHEAD -gt 0 ]; then
-				GIT_PROMPT="$GIT_PROMPT $NOCOLOUR$GREEN$AHEAD$GIT_AHEAD"
-			fi
-			if [ $BEHIND -gt 0 ]; then
-				GIT_PROMPT="$GIT_PROMPT $NOCOLOUR$RED$BEHIND$GIT_BEHIND"
-			fi
-		fi
+            # number of untracked files (that aren't ignored)
+            local __git_untracked=$(git ls-files --others --exclude-standard | wc -l)
 
-	fi
+            __git_changes=" ${__green}${__git_staged}${__git_separator}${__yellow}${__git_unstaged}${__git_separator}${__cyan}${__git_untracked}${__no_colour}"
+        fi
 
-	echo $GIT_PROMPT
+        # combine the git info into a single string
+        __git_status="${__separator}${__red}${__git_branch}${__git_changes}${__no_colour}"
+
+    fi
+
+    PS1="\n${__box_top}${__user}@${__host}${__separator}${__current_dir}${__git_status}\n${__box_bottom}${__exit}${__prompt_char}"
+
+    # If this is an xterm set the title to user@host:dir
+    case "$TERM" in
+        xterm*|rxvt*)
+            PS1="\[\e]0;\u@\h: \w\a\]$PS1"
+        ;;
+        *)
+        ;;
+    esac
 
 }
 
