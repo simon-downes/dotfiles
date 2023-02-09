@@ -35,7 +35,7 @@ function __build_prompt() {
     # if last command failed then prompt is red and includes exit code
     if [ $__exit != 0 ]; then
         __prompt_colour="${__red}"
-        __exit="${__prompt_colour}❌${__exit} ${__nocolour}"
+        __exit="${__prompt_colour}🗙 ${__exit} ${__nocolour}"
     else
         __exit="${__prompt_colour}✔ ${__nocolour}"
     fi

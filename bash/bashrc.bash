@@ -43,3 +43,6 @@ fi
 
 # some form of local config
 [ -f ~/.bash.local ] && . ~/.bash.local
+
+# ensure we get a green prompt to start with
+true
