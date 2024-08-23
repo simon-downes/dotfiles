@@ -33,7 +33,9 @@
 
 [core]
 	excludesfile = ~/.gitignore
+
 [commit]
 	gpgsign = true
+
 [gpg]
 	format = ssh

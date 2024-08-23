@@ -10,4 +10,3 @@ bash/bash_profile.bash	.bash_profile
 # GIT
 git/gitconfig	.gitconfig
 git/gitignore	.gitignore
-git/git-completion.bash	.git-completion.bash
