@@ -3,9 +3,9 @@
 [[ $- == *i* ]] || return 0
 
 # if we have SiBash available then we'll include that and use sb.session
-SIBASH=$(command -v sibash)
+SIBASH=$(command -v sibash || ([ -f $HOME/sibash ] && echo "$HOME/sibash") )
 
-[ -n "$SIBASH" ] && {
+[ -n "${SIBASH}" ] && {
     . $SIBASH
     sb.session.init
     return
