@@ -8,6 +8,9 @@ SIBASH=$(command -v sibash || ([ -f $HOME/sibash ] && echo "$HOME/sibash") )
 [ -n "${SIBASH}" ] && {
     . $SIBASH
     sb.session.init
+    sb.is.file ~/.bash.local && {
+      . ~/.bash.local
+    }
     return
 }
 
