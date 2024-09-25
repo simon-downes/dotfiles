@@ -9,5 +9,4 @@ bash/bash_profile.bash	.bash_profile
 
 # GIT
 git/gitconfig	.gitconfig
-git/gitconfig.local	.gitconfig.local
 git/gitignore	.gitignore

@@ -34,6 +34,11 @@ function dot_install {
 		fi
 	done < $HOME/dotfiles/bin/files.list
 
+    # add the local git config file if none exists
+    if [ ! -f "$HOME/.gitconfig.local"  ]; then
+        cp $HOME/dotfiles/gitconfig.local $HOME/.gitconfig.local
+    fi
+
 }
 
 dot_install
